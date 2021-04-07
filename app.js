@@ -3,7 +3,7 @@ const cors = require('cors');
 const redis = require('redis');
 const connectDB = require('./config/db');
 const app = express();
-require('dotenv').config();
+// require('dotenv').config();
 
 const PORT = process.env.PORT || 5000;
 // const REDIS_PORT = process.env.PORT || 6379;
