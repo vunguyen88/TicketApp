@@ -30,7 +30,7 @@ const { clearHash } = require('../../middleware/cache');
 // @desc    Update tickets after checkout
 // @access  Private
 router.put('/', auth, async (req, res) => {
-    console.log('HIT')
+    //console.log('HIT')
     console.log('body ticket ', req.body.tickets)
     try {
         // const returnTickets = await Ticket.updateMany({ _id: req.body.tickets}, {onCheckout: true})//.cache({ key: req.user.id })
@@ -46,7 +46,7 @@ router.put('/', auth, async (req, res) => {
         // req.body.tickets.forEach(ticket => {
         //     client.rpush(key, ticket)
         // });
-        client.expire(key, 25)
+        client.expire(key, 40)
         console.log("SUCCESS ADD");
         // if (tickets.length > 0) {
         //     //console.log('ticket return ', tickets)
@@ -54,6 +54,41 @@ router.put('/', auth, async (req, res) => {
         // }
         //await returnTickets.save();
         res.json({ msg: 'No ticket to show'});
+    } catch(err) {
+        console.error(err.message);
+        res.status(500).send('Server error')
+    }
+});
+
+         //===========================*===========================//
+// @route   PUT api/tickets
+// @desc    Update tickets after checkout
+// @access  Private
+router.put('/success', auth, async (req, res) => {
+    console.log('HIT')
+    console.log('body success bought ticket ', req.body.tickets)
+    try {
+        await Ticket.updateMany({ _id: req.body.tickets}, {isSold: true})//.cache({ key: req.user.id })
+        // console.log('return ticket ', returnTickets)
+        // const key = 'cart:' + req.user.id;
+        // console.log('key ', key)
+        // async function addTicket(tick) {
+        //     for (const tic of tick) {
+        //         await client.rpush(key, tic)
+        //     }
+        // }
+        // addTicket(req.body.tickets)
+        // req.body.tickets.forEach(ticket => {
+        //     client.rpush(key, ticket)
+        // });
+        // client.expire(key, 25)
+        console.log("SUCCESS PURCHASE")
+        // if (tickets.length > 0) {
+        //     //console.log('ticket return ', tickets)
+        //     return res.json(tickets)
+        // }
+        //await returnTickets.save();
+        res.json({ msg: 'Success'});
     } catch(err) {
         console.error(err.message);
         res.status(500).send('Server error')

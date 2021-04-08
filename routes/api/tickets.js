@@ -110,6 +110,7 @@ router.get('/', async (req, res) => {
 // @desc    Get all tickets that user upload
 // @access  Private
 router.get('/mytickets', auth, async (req, res) => {
+    console.log('running route my tickets')
     // const redis = require('redis');
     // const redisUrl = 'redis://127.0.0.1:6379'
     // const client = redis.createClient(redisUrl);
@@ -129,7 +130,7 @@ router.get('/mytickets', auth, async (req, res) => {
     try {
         const tickets = await Ticket.find({ sellerId: req.user.id}).cache({ key: req.user.id })
         //if (tickets.length > 0) {
-            //console.log('ticket return ', tickets)
+            console.log('ticket return ', tickets)
             // set cached data
             //client.set(req.user.id, JSON.stringify(tickets))
             return res.json(tickets)
